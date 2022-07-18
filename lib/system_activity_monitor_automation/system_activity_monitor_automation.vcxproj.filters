@@ -28,5 +28,51 @@
     <Filter Include="Source Files\01_etw">
       <UniqueIdentifier>{4c412168-1a5e-4e53-9318-6ba4851f4e0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\01_etw\00_common">
+      <UniqueIdentifier>{4aabdfd7-77c5-4c3c-9a81-59af07b39bec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\03_session_state">
+      <UniqueIdentifier>{c33871b5-90b7-4db3-83a3-83f66faf5328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\02_runspace">
+      <UniqueIdentifier>{ca3b4b7e-aa66-496f-8c4d-1e62e433fa01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\03_session_state">
+      <UniqueIdentifier>{5d65d4d3-0938-4b59-9921-330c32eb0e28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\02_runspace">
+      <UniqueIdentifier>{62362182-48f9-4a90-bb12-076d70d83bd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\03_session_state\00_common">
+      <UniqueIdentifier>{4714e057-f402-4221-a4f6-5bb5ed1e1fd4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="etw_common_def.hpp">
+      <Filter>Header Files\01_etw\00_common</Filter>
+    </ClInclude>
+    <ClInclude Include="03_session_state\session_state_property.hpp">
+      <Filter>Header Files\03_session_state</Filter>
+    </ClInclude>
+    <ClInclude Include="03_session_state\session_state.hpp">
+      <Filter>Header Files\03_session_state</Filter>
+    </ClInclude>
+    <ClInclude Include="02_runspace\runspace.hpp">
+      <Filter>Header Files\02_runspace</Filter>
+    </ClInclude>
+    <ClInclude Include="03_session_state\00_common\session_state_common.h">
+      <Filter>Header Files\03_session_state\00_common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="03_session_state\session_state_property.cpp">
+      <Filter>Source Files\03_session_state</Filter>
+    </ClCompile>
+    <ClCompile Include="03_session_state\session_state.cpp">
+      <Filter>Source Files\03_session_state</Filter>
+    </ClCompile>
+    <ClCompile Include="02_runspace\runspace.cpp">
+      <Filter>Source Files\02_runspace</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

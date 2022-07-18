@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<SystemActivityMonitor Author="Dominik Phillips" Company="ERNW" Team="Windows Security" Version="1.0">
+  <RecordingSessions>
+    <Session Name="SAM_USER_SESSION" ID="1" Mode="" >
+      <BufferSize Value="128"/>
+      <MinimumBuffers Value="80"/>
+      <MaximumBuffers Value="128"/>
+      <FlushTimer Value="80"/>
+    </Session>
+    <Session Name="SAM_KERNEL_SESSION" ID="2" KernelSession="true" Mode="" >
+      <BufferSize Value="128"/>
+      <MinimumBuffers Value="80"/>
+      <MaximumBuffers Value="128"/>
+      <FlushTimer Value="80"/>
+    </Session>    
+  </RecordingSessions>
+  <RecordingProfiles>
+    <Profile ID="">
+      <KernelProvider Name="Process" Rundown="true">
+      </KernelProvider>
+    </Profile>
+    <Profile ID="">
+      <UserProvider Name="Microsoft-Windows-DNS-Client" Guid="{1c95126e-7eea-49a9-a3fe-a378b03ddb4d}" Level="255" Rundown="true">
+      </UserProvider>
+      <UserProvider Name="Microsoft-Windows-DNS-Client" Guid="{1c95126e-7eea-49a9-a3fe-a378b03ddb4d}" Level="255" Rundown="true">
+      </UserProvider>
+      <UserProvider Name="Microsoft-Windows-DNS-Client" Guid="{1c95126e-7eea-49a9-a3fe-a378b03ddb4d}" Level="255" Rundown="true">
+      </UserProvider>
+      <UserProvider Name="Microsoft-Windows-DNS-Client" Guid="{1c95126e-7eea-49a9-a3fe-a378b03ddb4d}" Level="255" Rundown="true">
+      </UserProvider>
+      <UserProvider Name="Microsoft-Windows-DNS-Client" Guid="{1c95126e-7eea-49a9-a3fe-a378b03ddb4d}" Level="255" Rundown="true">
+      </UserProvider>
+    </Profile>
+  </RecordingProfiles>
+</SystemActivityMonitor>
+
+
+<!-- <Profile Id="Sample.Verbose.File" Name="Sample" Description="Sample profile" DetailLevel="Verbose" LoggingMode="File">
+   <Collectors>
+      <EventCollectorId Value="Collector1">
+         <EventProviders>
+            <EventProvider Id="EventProvider_Microsoft-Windows-Kernel-Power" Name="Microsoft-Windows-Kernel-Power" NonPagedMemory="true">
+               <Keywords>
+                  <Keyword Value="0x4"/>
+               </Keywords>
+            </EventProvider>
+         </EventProviders>
+      </EventCollectorId>
+   </Collectors>
+</Profile> -->
