@@ -26,6 +26,7 @@ namespace automation
 			NAME,
 			ID,
 			KERNELSESSION,
+			KERNELPROVIDER,
 			MODE,
 			BUFFERSIZE,
 			MINIMUMBUFFERS,

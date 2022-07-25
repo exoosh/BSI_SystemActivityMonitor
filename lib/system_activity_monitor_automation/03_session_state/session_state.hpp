@@ -11,35 +11,29 @@ namespace automation
 	class session_state
 	{
 	public:
-		void load_from_file(const std::wstring& file_path);
+		bool load_from_file(const std::wstring& file_path, const std::wstring& schema_file_path);
 		
-
+		std::vector<unsigned int> m_loaded_session;
+		session_state_property m_database{ 10000 };
 	protected:
 
 
 
 	private:
 		bool open_xml_file(const std::wstring& file_path);
-		void validate_xml_file(const std::wstring& file_path);
+		bool validate_xml_file(const std::wstring& file_path);
 
-		bool parse_session_node();
-		
+		bool parse_session_node();		
 		bool parse_profile_node();
-		void parse_user_provider_node(session_state_property& provider, const MSXML2::IXMLDOMNodePtr& next_profile_node);
-		void parse_kernel_provider_node();
-
-		bool parse_kernel_session_node();
+		void parse_provider_node(session_state_property& provider, const MSXML2::IXMLDOMNodePtr& next_profile_node);
 		
-
-	
-
-
-
 		std::wstring read_wstring_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node);
 		int read_int_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node);
 		bool read_bool_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node);
 
-		
+		utility::msxml m_msxml_;
+		MSXML2::IXMLDOMDocument3Ptr m_xml_document_ptr_;
+		 //tag database
 
 		//inline bool session_state_base::get_attr_bool_val_by_name(const std::wstring& attr_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attr_map_ptr)
 		//{
@@ -97,9 +91,7 @@ namespace automation
 
 
 
-		utility::msxml m_msxml_;
-		MSXML2::IXMLDOMDocument3Ptr m_xml_document_ptr_;
-		session_state_property m_database_{ 10 }; //tag database
+		
 	};
 }
 

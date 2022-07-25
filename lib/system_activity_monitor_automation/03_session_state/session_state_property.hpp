@@ -14,16 +14,16 @@ namespace automation
         template<typename T>
         void append_property(unsigned int tag, T value)
         {
-            if (m_property_.m_init == false)
+            if (m_property.m_init == false)
             {
-                m_property_.m_init = true;
-                m_property_.m_data = new std::map<unsigned int, std::variant<int, std::wstring, bool>>();
+                m_property.m_init = true;
+                m_property.m_data = new std::map<unsigned int, std::variant<int, std::wstring, bool>>();
             }
 
             //std::variant<int, std::wstring>
 
             auto f = std::variant<int, std::wstring>(value);
-            m_property_.m_data->operator[](tag) = value;
+            m_property.m_data->operator[](tag) = value;
             std::cout << "stop" << std::endl;
             //m_data_.m_concreat_data[tag] = std::variant<int, std::wstring>(value);
         }
@@ -36,20 +36,22 @@ namespace automation
         unsigned int id;
         unsigned int tag;
 
+        struct property
+        {
+            property() : m_init(false) {}
+            ~property() { if (!m_data) delete m_data; }
+
+            bool m_init;
+            std::map<unsigned int, std::variant<int, std::wstring, bool>>* m_data;
+        }m_property;
+
     protected:
 
     private:
         session_state_property* begin();
         session_state_property* end();
 
-        struct property
-        {
-            property() : m_init(false) {}
-            ~property() { if(!m_data) delete m_data; }
-
-            bool m_init;
-            std::map<unsigned int, std::variant<int, std::wstring, bool>>* m_data;
-        }m_property_;
+        
     };
     
 }
