@@ -48,9 +48,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="etw_common_def.hpp">
-      <Filter>Header Files\01_etw\00_common</Filter>
-    </ClInclude>
     <ClInclude Include="03_session_state\session_state_property.hpp">
       <Filter>Header Files\03_session_state</Filter>
     </ClInclude>

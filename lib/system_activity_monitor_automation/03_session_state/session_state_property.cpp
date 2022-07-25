@@ -10,22 +10,22 @@ namespace automation
         this->id = id++;
     }
 
-    template<typename T>
-    void session_state_property::append_property(unsigned int tag, T value)
-    {
-        if (m_property_.m_init == false)
-        {
-            m_property_.m_init = true;
-            m_property_.m_data = new std::map<unsigned int, std::variant<int, std::wstring>>();
-        }
+    //template<typename T>
+    //void session_state_property::append_property(unsigned int tag, T value)
+    //{
+    //    if (m_property_.m_init == false)
+    //    {
+    //        m_property_.m_init = true;
+    //        m_property_.m_data = new std::map<unsigned int, std::variant<int, std::wstring, bool>>();
+    //    }
 
-        //std::variant<int, std::wstring>
+    //    //std::variant<int, std::wstring>
 
-        auto f = std::variant<int, std::wstring>(value);
-        m_property_.m_data->operator[](tag) = value;
-        std::cout << "stop" << std::endl;
-        //m_data_.m_concreat_data[tag] = std::variant<int, std::wstring>(value);
-    }
+    //    auto f = std::variant<int, std::wstring>(value);
+    //    m_property_.m_data->operator[](tag) = value;
+    //    std::cout << "stop" << std::endl;
+    //    //m_data_.m_concreat_data[tag] = std::variant<int, std::wstring>(value);
+    //}
 
     void session_state_property::connect_to(session_state_property& other)
     {

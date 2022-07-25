@@ -8,6 +8,12 @@ namespace automation
 {
 	namespace session_state_common
 	{
+		enum class tag
+		{
+			LIST,
+
+		};
+
 		enum class data_type
 		{
 			WSTRING,
@@ -15,43 +21,45 @@ namespace automation
 			BOOL
 		};
 
-		const std::vector<std::tuple<std::wstring, data_type>> base_session_attributes
+		enum class attribute_type
 		{
-			std::make_tuple(L"Name", data_type::WSTRING),
-			std::make_tuple(L"ID", data_type::INT),
-			std::make_tuple(L"KernelSession", data_type::BOOL),
-			std::make_tuple(L"Mode", data_type::WSTRING)
+			NAME,
+			ID,
+			KERNELSESSION,
+			MODE,
+			BUFFERSIZE,
+			MINIMUMBUFFERS,
+			MAXIMUMBUFFERS,
+			FLUSHTIMER,
+			GUID,
+			LEVEL,
+			RUNDOWN,
+			ALL,
+			ANY
 		};
 
-		const std::vector<std::tuple<std::wstring, data_type>> session_child_nodes
+		const std::vector<std::tuple<std::wstring, attribute_type, data_type>> session_node_attributes
 		{
-			std::make_tuple(L"BufferSize", data_type::INT),
-			std::make_tuple(L"MinimumBuffers", data_type::INT),
-			std::make_tuple(L"MaximumBuffers", data_type::INT),
-			std::make_tuple(L"FlushTimer", data_type::INT)
-		};
-		
-
-		//assert(ti1.hash_code() == ti2.hash_code());
-		/*const std::vector<std::tuple<std::wstring, std::wstring, std::wstring>> session_attributes
-		{
-			std::make_tuple(L"sam_user_session", L"//SystemActivityMonitor//Provider//EventProviders", L"EventProvider"),
-			std::make_tuple(L"sam_kernel_session", L"//SystemActivityMonitor//Provider//SystemProviders", L"SystemProvider")
+			std::make_tuple(L"Name", attribute_type::NAME, data_type::WSTRING),
+			std::make_tuple(L"ID", attribute_type::ID, data_type::INT),
+			std::make_tuple(L"KernelSession", attribute_type::KERNELSESSION, data_type::BOOL),
+			std::make_tuple(L"Mode", attribute_type::MODE, data_type::WSTRING)
 		};
 
-		const std::vector<std::tuple<std::wstring, std::wstring, std::wstring>> base_provider_attributes
+		const std::vector<std::tuple<std::wstring, std::wstring, attribute_type, data_type>> session_child_nodes
 		{
-			std::make_tuple(L"sam_user_session", L"//SystemActivityMonitor//Provider//EventProviders", L"EventProvider"),
-			std::make_tuple(L"sam_kernel_session", L"//SystemActivityMonitor//Provider//SystemProviders", L"SystemProvider")
+			std::make_tuple(L"BufferSize", L"Value", attribute_type::BUFFERSIZE, data_type::INT),
+			std::make_tuple(L"MinimumBuffers", L"Value", attribute_type::MINIMUMBUFFERS, data_type::INT),
+			std::make_tuple(L"MaximumBuffers", L"Value", attribute_type::MAXIMUMBUFFERS, data_type::INT),
+			std::make_tuple(L"FlushTimer", L"Value", attribute_type::FLUSHTIMER, data_type::INT)
 		};
 
-		const std::vector<std::tuple<std::wstring, std::wstring, std::wstring>> provider_attributes
+		const std::vector<std::tuple<std::wstring, attribute_type, data_type>> provider_node_attributes
 		{
-			std::make_tuple(L"sam_user_session", L"//SystemActivityMonitor//Provider//EventProviders", L"EventProvider"),
-			std::make_tuple(L"sam_kernel_session", L"//SystemActivityMonitor//Provider//SystemProviders", L"SystemProvider")
-		};*/
-
-		
-
+			std::make_tuple(L"Name", attribute_type::NAME, data_type::WSTRING),
+			std::make_tuple(L"Guid", attribute_type::GUID, data_type::WSTRING),
+			std::make_tuple(L"Level", attribute_type::LEVEL, data_type::INT),
+			std::make_tuple(L"Rundown", attribute_type::RUNDOWN, data_type::BOOL)
+		};
 	}
 }

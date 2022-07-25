@@ -144,7 +144,6 @@
     <ClInclude Include="03_session_state\00_common\session_state_common.h" />
     <ClInclude Include="03_session_state\session_state.hpp" />
     <ClInclude Include="03_session_state\session_state_property.hpp" />
-    <ClInclude Include="etw_common_def.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02_runspace\runspace.cpp" />

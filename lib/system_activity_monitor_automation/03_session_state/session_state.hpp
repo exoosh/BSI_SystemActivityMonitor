@@ -23,11 +23,19 @@ namespace automation
 		void validate_xml_file(const std::wstring& file_path);
 
 		bool parse_session_node();
-		bool parse_kernel_session_node();
-		void parse_user_provider_node();
+		
+		bool parse_profile_node();
+		void parse_user_provider_node(session_state_property& provider, const MSXML2::IXMLDOMNodePtr& next_profile_node);
 		void parse_kernel_provider_node();
 
-		std::wstring read_wstr_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node);
+		bool parse_kernel_session_node();
+		
+
+	
+
+
+
+		std::wstring read_wstring_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node);
 		int read_int_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node);
 		bool read_bool_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node);
 

@@ -11,39 +11,13 @@ namespace automation
 		{
 			if (!parse_session_node())
 				return;
-			if (!parse_kernel_session_node())
+			if (!parse_profile_node())
 				return;
 		}
 
 
 
-		/*session_state_property session1{ 21 };
-		session_state_property session2{ 22 };
-
-		session_state_property provider_list1{ 30 };
-		session_state_property provider_list2{ 30 };
-
-		session_state_property provider11{ 31 };		
-		session_state_property provider12{ 32 };
-		session_state_property provider13{ 33 };
-
-		session_state_property provider21{ 31 };
-		session_state_property provider22{ 32 };
-		session_state_property provider23{ 33 };
 		
-		provider_list1.connect_to(provider11);
-		provider_list1.connect_to(provider12);
-		provider_list1.connect_to(provider13);
-
-		provider_list2.connect_to(provider21);
-		provider_list2.connect_to(provider22);
-		provider_list2.connect_to(provider23);
-
-		session1.connect_to(provider_list1);
-		session2.connect_to(provider_list2);
-
-		m_database_.connect_to(session1);
-		m_database_.connect_to(session2);*/
 	}
 
 	bool session_state::open_xml_file(const std::wstring& file_path)
@@ -78,37 +52,57 @@ namespace automation
 				session_node = nullptr;
 				session_node = recording_session_node->nextNode();
 				if (session_node != nullptr)
-				{			
+				{		
+					session_state_property session{ 20000 };
 					auto base_attribute_node = m_msxml_.get_attributes(session_node);
 					if (base_attribute_node != nullptr)
-					{
-						for (auto& [attribute_name, type] : session_state_common::base_session_attributes)
+					{			
+						auto id = read_int_attribute_by_name(L"ID", base_attribute_node);
+						if (id <= 0) { break; }
+						session.tag += id;
+													
+						for (auto& [attribute_name, attribute_type, attribute_data_type] : session_state_common::session_node_attributes)
 						{
-							switch (type)
+							switch (attribute_data_type)
 							{
-							case session_state_common::data_type::WSTRING:
-							{
-								auto a1 = read_wstr_attribute_by_name(attribute_name, base_attribute_node);
-								break;
+								case session_state_common::data_type::WSTRING:
+								{							
+									if (attribute_type == session_state_common::attribute_type::NAME) 
+									{
+										auto name = read_wstring_attribute_by_name(attribute_name, base_attribute_node);
+										if (!name.empty())
+											session.append_property((2000 + (unsigned int)attribute_type), name);
+									}																							
+									else if (attribute_type == session_state_common::attribute_type::MODE)
+									{
+										auto mode = read_wstring_attribute_by_name(attribute_name, base_attribute_node);
+										if(!mode.empty())
+											session.append_property((2000 + (unsigned int)attribute_type), mode);
+									}																	
+									break;
+								}
+								case session_state_common::data_type::INT:
+								{								
+									break;
+								}
+								case session_state_common::data_type::BOOL:
+								{
+									if (attribute_type == session_state_common::attribute_type::KERNELSESSION) 
+									{
+										auto kernel_session = read_bool_attribute_by_name(attribute_name, base_attribute_node);
+										if (kernel_session)
+											session.append_property((2000 + (unsigned int)attribute_type), kernel_session);
+									}									
+									break;
+								}
+								default:
+								{
+								}
 							}
-							case session_state_common::data_type::INT:
-							{
-								auto a2 = read_int_attribute_by_name(attribute_name, base_attribute_node);
-								break;
-							}
-							case session_state_common::data_type::BOOL:
-							{
-								auto a3 = read_bool_attribute_by_name(attribute_name, base_attribute_node);
-								break;
-							}
-							default:
-							{
-							}
-							}
-						}			
+						}
 					}
 
-					for (auto& [node_name, type] : session_state_common::session_child_nodes)
+					for (auto& [node_name, attribute_name, attribute_type, attribute_data_type] : session_state_common::session_child_nodes)
 					{
 						auto session_child_node = m_msxml_.get_single_node(session_node, node_name);
 						if (session_child_node != nullptr)
@@ -116,15 +110,16 @@ namespace automation
 							auto child_attribute_node = m_msxml_.get_attributes(session_child_node);
 							if (child_attribute_node != nullptr)
 							{
-								if (type == session_state_common::data_type::INT)
+								if (attribute_data_type == session_state_common::data_type::INT)
 								{
-									auto value = read_int_attribute_by_name(L"Value", child_attribute_node);
-									std::wcout << node_name << ":" << value << std::endl;
-									//if (value != 0) { session_properties[child_node.first] = value; }
+									auto value = read_int_attribute_by_name(attribute_name, child_attribute_node);
+									if (value > 0)
+										session.append_property((2000 + (unsigned int)attribute_type), value);
 								}
 							}
 						}
-					}					
+					}
+					m_database_.connect_to(session);
 				}
 			} while (session_node != nullptr);
 		}
@@ -132,14 +127,127 @@ namespace automation
 		return true;
 	}
 
-	bool session_state::parse_kernel_session_node()
+	bool session_state::parse_profile_node()
 	{
+		MSXML2::IXMLDOMNodePtr next_profile_node{ nullptr };
+		MSXML2::IXMLDOMNodePtr next_provider_node{ nullptr };
+
+		try
+		{
+			auto profile_nodes = m_msxml_.get_multiple_nodes(m_xml_document_ptr_, L"//SystemActivityMonitor//RecordingProfiles//Profile");
+			if (profile_nodes != nullptr)
+			{
+				do
+				{
+					next_profile_node = nullptr;
+					next_profile_node = profile_nodes->nextNode();
+					if (next_profile_node != nullptr)
+					{
+						unsigned int session_id{ 20000 };
+						session_state_property profile{ 30000 };
+						auto next_profile_node_attributes = m_msxml_.get_attributes(next_profile_node);
+						if (next_profile_node_attributes != nullptr)
+						{
+							auto id = read_int_attribute_by_name(L"ID", next_profile_node_attributes);
+							if (id <= 0) { break; }
+							profile.tag += id; 
+							session_id += id;
+						}
+
+						auto it = m_database_.child_properties.find(session_id);
+						if (it != m_database_.child_properties.end())
+						{
+							auto provider_nodes = m_msxml_.get_child_nodes(next_profile_node);
+							if (provider_nodes != nullptr)
+							{
+								unsigned int provider_index{ 0 };
+								do
+								{
+									next_provider_node = nullptr;
+									next_provider_node = provider_nodes->nextNode();
+									if (next_provider_node != nullptr)
+									{
+										session_state_property provider{ 40000 + provider_index };
+										parse_user_provider_node(provider, next_provider_node);
+										profile.connect_to(provider);
+										provider_index++;
+									}
+								} while (next_provider_node != nullptr);
+							}
+
+							it->second->connect_to(profile);
+						}
+					}
+				} while (next_profile_node != nullptr);
+			}
+		}
+		catch (const std::system_error& se)
+		{
+			std::cout << "0x" << std::hex << se.code().value() << ":" << se.what() << std::endl;
+			return false;
+		}
+
 		return true;
 	}
 
-	void session_state::parse_user_provider_node()
+	void session_state::parse_user_provider_node(session_state_property& provider, const MSXML2::IXMLDOMNodePtr& provider_node)
 	{
+		if (provider_node != nullptr)
+		{
+			try
+			{
+				auto next_provider_node_attributes = m_msxml_.get_attributes(provider_node);
+				if (next_provider_node_attributes != nullptr)
+				{
+					for (auto& [attribute_name, attribute_type, attribute_data_type] : session_state_common::provider_node_attributes)
+					{
+						switch (attribute_data_type)
+						{
+							case session_state_common::data_type::WSTRING:
+							{
 
+								if (attribute_type == session_state_common::attribute_type::NAME)
+								{
+									auto name = read_wstring_attribute_by_name(attribute_name, next_provider_node_attributes);
+									if (!name.empty())
+										provider.append_property((4000 + (unsigned int)attribute_type), name);
+								}
+								else if (attribute_type == session_state_common::attribute_type::GUID)
+								{
+									auto guid = read_wstring_attribute_by_name(attribute_name, next_provider_node_attributes);
+									if (!guid.empty())
+										provider.append_property((4000 + (unsigned int)attribute_type), guid);
+								}
+								break;
+							}
+							case session_state_common::data_type::INT:
+							{
+
+								break;
+							}
+							case session_state_common::data_type::BOOL:
+							{
+								if (attribute_type == session_state_common::attribute_type::RUNDOWN)
+								{
+									auto rundown = read_bool_attribute_by_name(attribute_name, next_provider_node_attributes);
+									if (rundown)
+										provider.append_property((4000 + (unsigned int)attribute_type), rundown);
+								}
+								break;
+							}
+							default:
+							{
+							}
+						}
+					}
+				}
+			}
+			catch (const std::system_error& se)
+			{
+				std::cout << "0x" << std::hex << se.code().value() << ":" << se.what() << std::endl;
+				throw;
+			}
+		}
 	}
 
 	void session_state::parse_kernel_provider_node()
@@ -147,7 +255,7 @@ namespace automation
 
 	}
 
-	std::wstring session_state::read_wstr_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node)
+	std::wstring session_state::read_wstring_attribute_by_name(const std::wstring& attribute_name, const MSXML2::IXMLDOMNamedNodeMapPtr& attribute_node)
 	{
 		if (attribute_node != nullptr && !attribute_name.empty())
 		{
