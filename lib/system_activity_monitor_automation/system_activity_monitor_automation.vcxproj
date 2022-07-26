@@ -140,12 +140,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="01_etw\controller.hpp" />
+    <ClInclude Include="01_etw\dispatcher.hpp" />
+    <ClInclude Include="01_etw\receiver.hpp" />
     <ClInclude Include="02_runspace\runspace.hpp" />
     <ClInclude Include="03_session_state\00_common\session_state_common.h" />
     <ClInclude Include="03_session_state\session_state.hpp" />
     <ClInclude Include="03_session_state\session_state_property.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="01_etw\controller.cpp" />
+    <ClCompile Include="01_etw\dispatcher.cpp" />
+    <ClCompile Include="01_etw\receiver.cpp" />
     <ClCompile Include="02_runspace\runspace.cpp" />
     <ClCompile Include="03_session_state\session_state.cpp" />
     <ClCompile Include="03_session_state\session_state_property.cpp" />

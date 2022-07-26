@@ -60,6 +60,15 @@
     <ClInclude Include="03_session_state\00_common\session_state_common.h">
       <Filter>Header Files\03_session_state\00_common</Filter>
     </ClInclude>
+    <ClInclude Include="01_etw\controller.hpp">
+      <Filter>Header Files\01_etw</Filter>
+    </ClInclude>
+    <ClInclude Include="01_etw\receiver.hpp">
+      <Filter>Header Files\01_etw</Filter>
+    </ClInclude>
+    <ClInclude Include="01_etw\dispatcher.hpp">
+      <Filter>Header Files\01_etw</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="03_session_state\session_state_property.cpp">
@@ -70,6 +79,15 @@
     </ClCompile>
     <ClCompile Include="02_runspace\runspace.cpp">
       <Filter>Source Files\02_runspace</Filter>
+    </ClCompile>
+    <ClCompile Include="01_etw\controller.cpp">
+      <Filter>Source Files\01_etw</Filter>
+    </ClCompile>
+    <ClCompile Include="01_etw\receiver.cpp">
+      <Filter>Source Files\01_etw</Filter>
+    </ClCompile>
+    <ClCompile Include="01_etw\dispatcher.cpp">
+      <Filter>Source Files\01_etw</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
